@@ -17,6 +17,7 @@ class PostController extends Controller
     public function get(Request $request): JsonResponse
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
+//        dd(Post::orderBy('created_at', 'desc'));
         return response()->json($posts);
     }
 

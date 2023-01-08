@@ -5262,6 +5262,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -5281,8 +5288,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "CreatePost",
+  customOpt: "Opt in Created Post",
   data: function data() {
     return {
       post: {
@@ -5296,11 +5316,16 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('createPost', post);
     }
   },
-  computed: {
+  computed: _objectSpread(_objectSpread({
     isValid: function isValid() {
       return this.post.title !== '' && this.post.content !== '';
+    },
+    getVariableFromStore: function getVariableFromStore() {
+      // напрямую обращается к $store для чтения пременной
+      return this.$store.state.any_variable;
     }
-  }
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)([// проксирует в this.map_state_variables() доступ к store.state.map_state_variables
+  'map_state_variables', 'another_map_state_variables'])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['fullName']))
 });
 
 /***/ }),
@@ -5347,11 +5372,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Posts",
   mounted: function mounted() {
+    var _this = this;
+
     this.$store.dispatch('fetchPosts');
+    setTimeout(function () {
+      console.log(_this.$refs.pst[1]);
+    }, 500);
   },
   methods: {
     deletePost: function deletePost(post) {
@@ -5390,6 +5425,7 @@ Vue.component('createPost', (__webpack_require__(/*! ./components/CreatePost.vue
  */
 
 var app = new Vue({
+  customOpt: 'where-where',
   el: '#app',
   store: _store_store__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
@@ -5487,6 +5523,9 @@ __webpack_require__.r(__webpack_exports__);
 var getters = {
   posts: function posts(state) {
     return state.posts;
+  },
+  fullName: function fullName(state) {
+    return state.a + ' ' + state.b;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getters);
@@ -5534,7 +5573,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 var state = {
-  posts: []
+  posts: [],
+  any_variable: 'This is state any_variable',
+  map_state_variables: 'This is map_state_variables',
+  another_map_state_variables: 'This is another_map_state_variables',
+  a: 'FirstName',
+  b: 'LastName'
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (state);
 
@@ -28679,8 +28723,32 @@ var render = function () {
               },
             },
           },
-          [_vm._v("Submit\n        ")]
+          [_vm._v("\n            Submit\n        ")]
         ),
+      ]),
+      _vm._v(" "),
+      _c("h4", { staticClass: "text-center font-weight-bold" }, [
+        _vm._v("Example"),
+      ]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "text-center font-weight-bold" }, [
+        _vm._v(_vm._s(_vm.getVariableFromStore)),
+      ]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "text-center font-weight-bold" }, [
+        _vm._v(_vm._s(_vm.map_state_variables)),
+      ]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "text-center font-weight-bold" }, [
+        _vm._v(_vm._s(_vm.another_map_state_variables)),
+      ]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "text-center font-weight-bold" }, [
+        _vm._v(_vm._s(_vm.fullName)),
+      ]),
+      _vm._v(" "),
+      _c("h5", { staticClass: "text-center font-weight-bold" }, [
+        _vm._v("Opt: " + _vm._s(_vm.$options.customOpt)),
       ]),
     ]
   )
@@ -28719,7 +28787,7 @@ var render = function () {
       _c(
         "tbody",
         _vm._l(_vm.posts, function (post) {
-          return _c("tr", [
+          return _c("tr", { ref: "pst", refInFor: true }, [
             _c("td", [_vm._v(_vm._s(post.title))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(post.content))]),

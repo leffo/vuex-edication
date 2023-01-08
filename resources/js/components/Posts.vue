@@ -10,11 +10,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="post in posts">
-                <td>{{post.title}}</td>
-                <td>{{post.content}}</td>
+            <tr v-for="post in posts" ref="pst">
+                <td>{{ post.title }}</td>
+                <td>{{ post.content }}</td>
                 <td>
-                    <button class="btn btn-danger" @click="deletePost(post)"><i style="color:white" class="fa fa-trash"></i></button>
+                    <button
+                        class="btn btn-danger"
+                        @click="deletePost(post)"
+                    >
+                        <i style="color:white" class="fa fa-trash"></i>
+                    </button>
                 </td>
             </tr>
             </tbody>
@@ -29,6 +34,9 @@ export default {
     name: "Posts",
     mounted() {
         this.$store.dispatch('fetchPosts')
+        setTimeout(() => {
+            console.log(this.$refs.pst[1]);
+        }, 500);
     },
     methods: {
         deletePost(post) {

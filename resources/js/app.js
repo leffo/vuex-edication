@@ -20,6 +20,7 @@ Vue.component('createPost', require('./components/CreatePost.vue').default);
  */
 
 const app = new Vue({
+    customOpt: 'where-where',
     el: '#app',
     store,
 });
